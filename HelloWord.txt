@@ -1,0 +1,133 @@
+Page MainWindow.xaml
+<Window x:Class="WpfHelloWord.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <!-- Contenu de votre fenêtre -->
+    </Grid>
+</Window>
+
+Page MainWindow.xaml.vb
+Namespace DialogApp
+    Public Class MainWindow
+        Inherits Window
+
+        Public Sub New()
+            InitializeComponent()
+            Title = "Application WPF"
+            Width = 400
+            Height = 300
+            WindowStartupLocation = WindowStartupLocation.CenterScreen
+
+            ' Création du contenu principal
+            Dim mainGrid As New Grid()
+            Content = mainGrid
+
+            ' Création d'un bouton pour ouvrir la boîte de dialogue
+            Dim openDialogButton As New Button()
+            openDialogButton.Content = "Ouvrir la boîte de dialogue"
+            openDialogButton.Width = 200
+            openDialogButton.Height = 40
+            openDialogButton.HorizontalAlignment = HorizontalAlignment.Center
+            openDialogButton.VerticalAlignment = VerticalAlignment.Center
+            AddHandler openDialogButton.Click, AddressOf OpenDialogButton_Click
+            mainGrid.Children.Add(openDialogButton)
+        End Sub
+
+        Private Sub InitializeComponent()
+            Throw New NotImplementedException()
+        End Sub
+
+        Private Sub OpenDialogButton_Click(sender As Object, e As RoutedEventArgs)
+            Try
+                ' Création et affichage de la boîte de dialogue
+                Dim dialog As New CustomDialog()
+                dialog.Owner = Me
+                dialog.ShowDialog()
+            Catch ex As Exception
+                ' Gestion des exceptions
+                MessageBox.Show("Une erreur est survenue lors de l'ouverture de la boîte de dialogue : " & ex.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error)
+            End Try
+        End Sub
+    End Class
+
+    Public Class CustomDialog
+        Inherits Window
+
+        Public Sub New()
+            ' Initialisation de la boîte de dialogue
+            Title = "Boîte de dialogue"
+            Width = 300
+            Height = 200
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+            ResizeMode = ResizeMode.NoResize
+            WindowStyle = WindowStyle.ToolWindow
+
+            ' Création du Grid principal
+            Dim mainGrid As New Grid()
+            Content = mainGrid
+
+            ' Définition des lignes du Grid
+            mainGrid.RowDefinitions.Add(New RowDefinition() With {.Height = New GridLength(1, GridUnitType.Star)})
+            mainGrid.RowDefinitions.Add(New RowDefinition() With {.Height = New GridLength(50)})
+
+            ' Ajout du message de la boîte de dialogue
+            Dim messageTextBlock As New TextBlock()
+            messageTextBlock.Text = "Voici votre message de dialogue."
+            messageTextBlock.FontSize = 16
+            messageTextBlock.HorizontalAlignment = HorizontalAlignment.Center
+            messageTextBlock.VerticalAlignment = VerticalAlignment.Center
+            Grid.SetRow(messageTextBlock, 0)
+            mainGrid.Children.Add(messageTextBlock)
+
+            ' Création du panneau pour les boutons
+            Dim buttonPanel As New StackPanel()
+            buttonPanel.Orientation = Orientation.Horizontal
+            buttonPanel.HorizontalAlignment = HorizontalAlignment.Center
+            buttonPanel.VerticalAlignment = VerticalAlignment.Center
+            Grid.SetRow(buttonPanel, 1)
+            mainGrid.Children.Add(buttonPanel)
+
+            ' Ajout du bouton OK
+            Dim okButton As New Button()
+            okButton.Content = "OK"
+            okButton.Width = 100
+            okButton.Height = 30
+            okButton.Margin = New Thickness(5)
+            AddHandler okButton.Click, AddressOf OkButton_Click
+            buttonPanel.Children.Add(okButton)
+        End Sub
+
+        Private Sub OkButton_Click(sender As Object, e As RoutedEventArgs)
+            Try
+                ' Fermer la boîte de dialogue
+                DialogResult = True
+                Close()
+            Catch ex As Exception
+                ' Gestion des exceptions
+                MessageBox.Show("Une erreur est survenue lors de la fermeture de la boîte de dialogue : " & ex.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error)
+            End Try
+        End Sub
+    End Class
+End Namespace
+
+Page App.xaml
+<Application x:Class="DialogApp.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ </Application>
+
+Page App.xaml.vb
+Namespace DialogApp
+    Partial Public Class App
+        Inherits Application
+
+        Private Sub Application_Startup(sender As Object, e As StartupEventArgs)
+            ' Créer et afficher la fenêtre principale
+            Dim mainWindow As New MainWindow()
+            mainWindow.Show()
+        End Sub
+    End Class
+End Namespace
+
