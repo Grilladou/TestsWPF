@@ -1,0 +1,105 @@
+<Window x:Class="LoadingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Chargement" Height="200" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="#F0F0F0"
+        BorderBrush="#2196F3"
+        BorderThickness="1">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!-- Nouvelle ligne pour le bouton STOP -->
+        </Grid.RowDefinitions>
+
+        <!-- Message de chargement -->
+        <TextBlock x:Name="LoadingMessage" 
+                   Grid.Row="0"
+                   Text="Collecte des informations matérielles..."
+                   TextWrapping="Wrap"
+                   FontSize="16"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+        <!-- Compteur de progression -->
+        <TextBlock x:Name="ProgressCounter"
+                   Grid.Row="1"
+                   Text="1/5"
+                   FontSize="14"
+                   HorizontalAlignment="Center"
+                   Margin="0,10,0,10"/>
+
+        <!-- Espace réservé pour l'indicateur visuel -->
+        <Border Grid.Row="2" 
+                x:Name="LoadingIndicatorContainer"
+                Height="30">
+            <ProgressBar IsIndeterminate="True" Height="20"/>
+        </Border>
+
+        <!-- Bouton STOP avec effet 3D -->
+        <Button x:Name="StopButton"
+        Grid.Row="3"
+        Content="STOP"
+        Width="50" 
+        Height="50"
+        Margin="0,15,0,0"
+        Foreground="White"
+        FontWeight="Bold"
+        HorizontalAlignment="Center"
+        Click="StopButton_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <!-- Ombre externe pour l'effet de profondeur -->
+                        <Ellipse Fill="#990000" Margin="0,2,0,0" />
+
+                        <!-- Cercle principal -->
+                        <Ellipse x:Name="ButtonEllipse" Fill="Red">
+                            <Ellipse.Effect>
+                                <DropShadowEffect Color="Black" Direction="320" 
+                                          ShadowDepth="3" Opacity="0.5" 
+                                          BlurRadius="4"/>
+                            </Ellipse.Effect>
+                        </Ellipse>
+
+                        <!-- Effet de brillance (highlight) -->
+                        <Ellipse>
+                            <Ellipse.Fill>
+                                <RadialGradientBrush Center="0.3,0.3" RadiusX="0.7" RadiusY="0.7">
+                                    <GradientStop Color="#40FFFFFF" Offset="0"/>
+                                    <GradientStop Color="#00FFFFFF" Offset="1"/>
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+
+                        <!-- Texte du bouton -->
+                        <ContentPresenter HorizontalAlignment="Center" 
+                                  VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- Animation lors du clic -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ButtonEllipse" Property="Fill" Value="#CC0000"/>
+                            <Setter TargetName="ButtonEllipse" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect Color="Black" Direction="320" 
+                                              ShadowDepth="1" Opacity="0.5" 
+                                              BlurRadius="2"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonEllipse" Property="Fill" Value="#FF3333"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</Window>
