@@ -69,10 +69,10 @@ Namespace HelloWorld
             _isStopping = True
 
             ' Désactiver le bouton pour empêcher d'autres clics
-            StopButtonElement.IsEnabled = False
+            InternalButton.IsEnabled = False
 
             ' Modifier l'apparence du bouton
-            StopButtonElement.Content = "ARRÊT..."
+            InternalButton.Content = "ARRÊT..."
 
             ' Démarrer l'animation de clignotement
             If _stoppingStoryboard IsNot Nothing Then
@@ -91,8 +91,8 @@ Namespace HelloWorld
             End If
 
             _isStopping = False
-            StopButtonElement.IsEnabled = True
-            StopButtonElement.Content = "STOP"
+            InternalButton.IsEnabled = True
+            InternalButton.Content = "STOP"
 
             ' Arrêter l'animation si elle est en cours
             If _stoppingStoryboard IsNot Nothing Then
