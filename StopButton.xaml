@@ -4,19 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
-    
+
     <UserControl.Resources>
-        <!-- Animation pour faire clignoter le bouton lors de l'arrêt -->
         <Storyboard x:Key="StoppingAnimation">
             <DoubleAnimation
-                Storyboard.TargetName="StopButtonElement"
+                Storyboard.TargetName="InternalButton"
                 Storyboard.TargetProperty="Opacity"
                 From="1.0" To="0.4" Duration="0:0:0.5"
                 AutoReverse="True" RepeatBehavior="Forever" />
         </Storyboard>
     </UserControl.Resources>
 
-    <Button x:Name="StopButtonElement"
+    <Button x:Name="InternalButton"
             Style="{StaticResource StopButtonStyle}"
             Content="STOP"
             Click="StopButton_Click">

@@ -1,9 +1,7 @@
-    <Window x:Class="HelloWorld.LoadingWindow"
+<Window x:Class="HelloWorld.LoadingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"            
+        xmlns:local="clr-namespace:HelloWorld"
         Title="Chargement" Height="280" Width="450"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
@@ -12,17 +10,12 @@
         BorderBrush="#2979FF"
         BorderThickness="1">
 
-        <!-- Ajout d'un effet d'ombre pour la fenêtre -->
+    <!-- Ajout d'un effet d'ombre pour la fenêtre -->
     <Window.Effect>
         <DropShadowEffect Color="#AAAAAA" Direction="315" 
                           ShadowDepth="5" Opacity="0.6" 
                           BlurRadius="8"/>
     </Window.Effect>
-    <Window.Resources>
-        <Style x:Key="UserStyle" TargetType="FrameworkElement">
-            <!-- Définir vos propriétés de style ici -->
-        </Style>
-    </Window.Resources>
 
     <Grid>
         <!-- Barre de titre -->
@@ -48,17 +41,17 @@
                 </Button>
             </Grid>
         </Border>
-            <!-- Contenu principal : Ajuster les définitions de rangées pour donner plus d'espace au bouton -->
-            <Grid Margin="20,40,20,20">
-                <Grid.RowDefinitions>
-                <!-- Hauteur minimale pour le texte -->
-                    <RowDefinition Height="Auto" MinHeight="60"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+
+        <!-- Contenu principal -->
+        <Grid Margin="20,40,20,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" MinHeight="60"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-                <!-- Zone blanche pour le contenu -->
+            <!-- Zone blanche pour le contenu -->
             <Border Grid.RowSpan="4" Background="White" CornerRadius="3" Margin="-5"/>
 
             <!-- Message de chargement -->
@@ -83,7 +76,7 @@
                        HorizontalAlignment="Center"
                        Margin="0,5,0,10"/>
 
-            <!-- Espace réservé pour l'indicateur visuel -->
+            <!-- Progression -->
             <Border Grid.Row="2" 
                     x:Name="LoadingIndicatorContainer"
                     Height="30"
@@ -93,10 +86,11 @@
                              Background="#F5F5F5"
                              BorderBrush="#E0E0E0"/>
             </Border>
+
+            <!-- Bouton STOP -->
             <Grid Grid.Row="3" Margin="0,5,0,5">
-                <!-- Bouton STOP standard au lieu du contrôle utilisateur -->
                 <local:StopButton x:Name="StopButton"
-                  HorizontalAlignment="Center" />
+                HorizontalAlignment="Center" />
             </Grid>
         </Grid>
     </Grid>
