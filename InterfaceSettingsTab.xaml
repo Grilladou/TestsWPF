@@ -1,0 +1,488 @@
+﻿<UserControl x:Class="HelloWorld.InterfaceSettingsTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HelloWorld"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="300">
+ <!-- INIT = d:DesignHeight="450" d:DesignWidth="300"> -->
+
+    <UserControl.Resources>
+        <!-- Style pour les TextBlock de section -->
+        <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#757575" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,15,0,10" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+
+        <!-- Style pour les labels d'options -->
+        <Style x:Key="OptionLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#212121" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="5,5,5,5" />
+        </Style>
+
+        <!-- Style pour les contrôles numériques -->
+        <Style x:Key="NumericControlStyle" TargetType="TextBox">
+            <Setter Property="Width" Value="60" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="5,0,0,0" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+
+        <!-- Style pour les sliders -->
+        <Style x:Key="SliderStyle" TargetType="Slider">
+            <Setter Property="Margin" Value="0,0,10,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TickFrequency" Value="10" />
+            <Setter Property="IsSnapToTickEnabled" Value="True" />
+        </Style>
+
+        <!-- Style pour les textes d'avertissement -->
+        <Style x:Key="WarningTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#E53935" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,5,0,0" />
+            <Setter Property="FontSize" Value="11" />
+        </Style>
+
+        <!-- Style pour les boutons d'action -->
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="8,5" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Background" Value="#F5F5F5" />
+            <Setter Property="BorderBrush" Value="#E0E0E0" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="MinWidth" Value="60" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E3F2FD" />
+                    <Setter Property="BorderBrush" Value="#2979FF" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style spécifique pour le bouton Appliquer -->
+        <Style x:Key="ApplyButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+            <Setter Property="Background" Value="#2979FF" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#2979FF" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1565C0" />
+                    <Setter Property="BorderBrush" Value="#1565C0" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style pour les TextBlock dans la section À propos -->
+        <Style x:Key="AboutTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#616161" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,5,0,0" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Contenu principal scrollable -->
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Margin="0">
+            <StackPanel Margin="15">
+                <!-- Section OPTIONS DE CHARGEMENT -->
+                <TextBlock Text="OPTIONS DE CHARGEMENT" 
+                          Style="{StaticResource SectionHeaderStyle}"/>
+
+                <!-- Option d'affichage de la fenêtre de progression -->
+                <DockPanel LastChildFill="False" Margin="0,5,0,15">
+                    <TextBlock Text="Afficher la fenêtre de progression" 
+                              Style="{StaticResource OptionLabelStyle}"
+                              DockPanel.Dock="Left" Width="200"/>
+                    <CheckBox x:Name="ShowProgressWindowCheckBox" 
+                             DockPanel.Dock="Right" 
+                             IsChecked="True"
+                             VerticalAlignment="Center"
+                             Margin="5,0,0,0">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                </DockPanel>
+
+                <!-- Délai entre les étapes -->
+                <DockPanel LastChildFill="False" Margin="0,5,0,15">
+                    <StackPanel DockPanel.Dock="Left" Width="170">
+                        <TextBlock Text="Délai entre les étapes (ms)" 
+                                  Style="{StaticResource OptionLabelStyle}"/>
+                        <TextBlock Text="1000 ms = 1 seconde" 
+                                  Foreground="#757575" 
+                                  FontSize="11" 
+                                  Margin="5,2,0,0"/>
+                    </StackPanel>
+                    <TextBox x:Name="StepDelayTextBox" 
+                            DockPanel.Dock="Right"
+                            Style="{StaticResource NumericControlStyle}"
+                            Text="500"
+                            Margin="0,0,10,0"
+                            PreviewTextInput="NumberValidationTextBox"/>
+                </DockPanel>
+
+                <!-- Séparateur -->
+                <Separator Margin="0,5,0,15" Background="#E0E0E0"/>
+
+                <!-- SECTION POSITIONS ET DIMENSIONS -->
+                <TextBlock Text="POSITIONS ET DIMENSIONS" 
+          Style="{StaticResource SectionHeaderStyle}"/>
+
+                <!-- Contrôles des dimensions (Ligne 1) -->
+                <Grid Margin="5,10,5,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Largeur -->
+                    <TextBlock Text="Largeur:" 
+              Style="{StaticResource OptionLabelStyle}"
+              Grid.Row="0" Grid.Column="0"/>
+                    <TextBox x:Name="WidthTextBox" 
+            Grid.Row="0" Grid.Column="1"
+            Style="{StaticResource NumericControlStyle}"
+            Text="500"
+            PreviewTextInput="NumberValidationTextBox"
+            TextChanged="WidthTextBox_TextChanged"/>
+                    <Slider x:Name="WidthSlider" 
+           Grid.Row="0" Grid.Column="2"
+           Style="{StaticResource SliderStyle}"
+           Minimum="300" Value="500"
+           ValueChanged="WidthSlider_ValueChanged"/>
+
+                    <!-- Hauteur -->
+                    <TextBlock Text="Hauteur:" 
+              Style="{StaticResource OptionLabelStyle}"
+              Grid.Row="1" Grid.Column="0"/>
+                    <TextBox x:Name="HeightTextBox" 
+            Grid.Row="1" Grid.Column="1"
+            Style="{StaticResource NumericControlStyle}"
+            Text="460"
+            PreviewTextInput="NumberValidationTextBox"
+            TextChanged="HeightTextBox_TextChanged"/>
+                    <Slider x:Name="HeightSlider" 
+           Grid.Row="1" Grid.Column="2"
+           Style="{StaticResource SliderStyle}"
+           Minimum="300" Value="460"
+           ValueChanged="HeightSlider_ValueChanged"/>
+                </Grid>
+
+                <!-- Zone d'avertissement pour les dimensions -->
+                <TextBlock x:Name="DimensionWarningText" 
+          Style="{StaticResource WarningTextStyle}"
+          Visibility="Collapsed"
+          Text="Les dimensions dépassent les limites de l'écran."
+          Margin="5,0,5,10"/>
+
+                <!-- Presets rapides (Ligne 2) -->
+                <StackPanel Orientation="Horizontal" Margin="5,0,5,10">
+                    <Button x:Name="FullScreenButton" 
+        Content="Plein écran" 
+        Style="{StaticResource ActionButtonStyle}"
+        Width="75" Height="30"
+        Margin="0,0,3,0"
+        Padding="3"
+        Click="FullScreenButton_Click"/>
+                    <Button x:Name="HalfScreenButton" 
+        Content="½ Écran" 
+        Style="{StaticResource ActionButtonStyle}"
+        Width="75" Height="30"
+        Margin="3,0,3,0"
+        Click="HalfScreenButton_Click"/>
+                    <Button x:Name="QuarterScreenButton" 
+        Content="¼ Écran" 
+        Style="{StaticResource ActionButtonStyle}"
+        Width="75" Height="30"
+        Margin="3,0,0,0"
+        Click="QuarterScreenButton_Click"/>
+                </StackPanel>
+
+                <!-- ComboBox pour sélectionner une position mémorisée -->
+                <DockPanel Margin="5,0,5,10">
+                    <TextBlock Text="Position:" 
+              Style="{StaticResource OptionLabelStyle}"
+              DockPanel.Dock="Left"
+              Width="60"/>
+                    <ComboBox x:Name="SavedPositionsComboBox" 
+              DockPanel.Dock="Left"
+              Height="25"
+              Width="Auto">
+                        <ComboBoxItem Content="Sélectionner une position mémorisée..."/>
+                        <!-- Les positions sauvegardées seront ajoutées dynamiquement -->
+                    </ComboBox>
+                </DockPanel>
+
+                <!-- Gestion des positions mémorisées (Ligne 3) -->
+                <Grid Margin="5,0,5,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="SavePositionButton" 
+        Grid.Column="1"
+        Content="Sauvegarder" 
+        Style="{StaticResource ActionButtonStyle}"
+        Width="77" Height="30"
+        Margin="0,0,3,0"
+        Padding="1"
+        Click="SavePositionButton_Click"/>
+
+                    <Button x:Name="DeletePositionButton" 
+        Grid.Column="2"
+        Content="Supprimer" 
+        Style="{StaticResource ActionButtonStyle}"
+        Width="75" Height="30"
+        Margin="3,0,0,0"
+        Padding="2"
+        Click="DeletePositionButton_Click"/>
+                </Grid>
+
+                <!-- Boutons d'importation et d'exportation -->
+                <Grid Margin="5,5,5,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="ExportPositionsButton" 
+        Grid.Column="1"
+        Content="Exporter" 
+        Style="{StaticResource ActionButtonStyle}"
+        Width="75" Height="30"
+        Margin="0,0,5,0"
+        ToolTip="Exporter les positions mémorisées dans un fichier"
+        Click="ExportPositionsButton_Click"/>
+
+                    <Button x:Name="ImportPositionsButton" 
+        Grid.Column="2"
+        Content="Importer" 
+        Style="{StaticResource ActionButtonStyle}"
+        Width="75" Height="30"
+        Margin="5,0,0,0"
+        ToolTip="Importer des positions mémorisées depuis un fichier"
+        Click="ImportPositionsButton_Click"/>
+                </Grid>
+
+                <!-- SECTION PRÉVISUALISATION -->
+                <TextBlock Text="PRÉVISUALISATION" 
+          Style="{StaticResource SectionHeaderStyle}"/>
+
+                <!-- Option d'aperçu en temps réel (fonctionnalité existante conservée) -->
+                <DockPanel LastChildFill="False" Margin="0,5,0,15">
+                    <TextBlock Text="Aperçu en temps réel" 
+              Style="{StaticResource OptionLabelStyle}"
+              DockPanel.Dock="Left" Width="200"/>
+                    <CheckBox x:Name="LivePreviewCheckBox" 
+             DockPanel.Dock="Right" 
+             IsChecked="False"
+             Checked="LivePreviewCheckBox_CheckedChanged"
+             Unchecked="LivePreviewCheckBox_CheckedChanged"
+             VerticalAlignment="Center"
+             Margin="5,0,0,0">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                </DockPanel>
+
+                <!-- Types d'indicateurs -->
+                <DockPanel LastChildFill="False" Margin="0,5,0,10">
+                    <TextBlock Text="Indicateurs:" 
+              Style="{StaticResource OptionLabelStyle}"
+              DockPanel.Dock="Left" Width="65"/>
+                    <ComboBox x:Name="IndicatorsComboBox" 
+          DockPanel.Dock="Left"
+          Width="175" Height="25"
+          SelectedIndex="0"
+          SelectionChanged="IndicatorsComboBox_SelectionChanged">
+                        <ComboBoxItem Content="Pixels uniquement"/>
+                        <ComboBoxItem Content="Pixels + Pourcentage d'écran"/>
+                        <ComboBoxItem Content="Pourcentage d'écran uniquement"/>
+                    </ComboBox>
+                </DockPanel>
+
+                <!-- Mode d'affichage -->
+                <TextBlock Text="Mode d'affichage:" 
+          Style="{StaticResource OptionLabelStyle}"
+          Margin="5,5,0,5"/>
+
+                <StackPanel Orientation="Horizontal" Margin="5,5,0,15">
+                    <RadioButton x:Name="ThumbnailModeRadio" 
+                Content="Miniature" 
+                GroupName="PreviewMode"
+                Margin="0,0,0,0"
+                IsChecked="True"/>
+                    <RadioButton x:Name="OutlineModeRadio" 
+                Content="Contours" 
+                GroupName="PreviewMode"
+                Margin="10,0,10,0"/>
+                    <RadioButton x:Name="FullModeRadio" 
+                Content="Complète" 
+                GroupName="PreviewMode"
+                Margin="0,0,0,0"/>
+                </StackPanel>
+
+                <!-- Application temporaire -->
+                <!-- Première ligne: Bouton seul -->
+                <DockPanel Margin="5,5,5,5">
+                    <Button x:Name="ApplyTemporaryButton" 
+            Content="Appliquer temporairement" 
+            Style="{StaticResource ActionButtonStyle}"
+            Background="#f39c12" Foreground="White"
+            BorderBrush="#e67e22" 
+            Width="200" Height="35"
+            HorizontalAlignment="Left"
+            Click="ApplyTemporaryButton_Click"/>
+                </DockPanel>
+
+                <!-- Deuxième ligne: Slider et valeur -->
+                <DockPanel Margin="5,0,5,15">
+                    <TextBlock Text="Durée:" 
+               Style="{StaticResource OptionLabelStyle}"
+               DockPanel.Dock="Left"
+               Width="50"/>
+
+                    <TextBlock DockPanel.Dock="Right" 
+               VerticalAlignment="Center"
+               Margin="5,0,0,0"
+               Width="30">
+                        <TextBlock.Text>
+                            <Binding ElementName="TemporaryDurationSlider" Path="Value" StringFormat="{}{0} s"/>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <Slider x:Name="TemporaryDurationSlider" 
+            DockPanel.Dock="Left"
+            Minimum="1" Maximum="10" Value="5"
+            TickFrequency="1" IsSnapToTickEnabled="True"
+            AutoToolTipPlacement="TopLeft"/>
+                </DockPanel>
+
+                <!-- Option zones d'accrochage Windows -->
+
+                <DockPanel LastChildFill="False" Margin="0,5,0,15">
+                    <CheckBox x:Name="ShowSnapZonesCheckBox" 
+             DockPanel.Dock="Left" 
+             IsChecked="False"
+             VerticalAlignment="Top"
+             Margin="5,6,8,0">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                    <TextBlock DockPanel.Dock="Left" 
+              Style="{StaticResource OptionLabelStyle}"
+              TextWrapping="Wrap"
+              Width="220"
+              Text="Afficher les zones d'accrochage Windows"
+              Height="Auto"/>
+                </DockPanel>
+
+                <!-- Bouton de prévisualisation standard (fonctionnalité existante conservée) -->
+                <Button x:Name="PreviewButton" 
+       Content="Prévisualiser" 
+       Style="{StaticResource ActionButtonStyle}" 
+       HorizontalAlignment="Center" 
+       Margin="5,5,0,10"
+       Click="PreviewButton_Click"/>
+                
+                <!-- Séparateur pour la section À propos -->
+                <Separator x:Name="AboutSeparator" Margin="0,15,0,15" Background="#E0E0E0"/>
+
+                <!-- Information sur l'application - Section À propos dynamique -->
+                <Border x:Name="AboutBorder" 
+                       Background="#F5F5F5" 
+                       Padding="10" 
+                       CornerRadius="4" 
+                       Margin="0,0,0,0"
+                       Visibility="Collapsed">
+                    <StackPanel>
+                        <TextBlock Text="À propos" 
+                                  FontWeight="Medium" 
+                                  Foreground="#424242"
+                                  Margin="0,0,0,5"/>
+
+                        <!-- Les TextBlocks pour le contenu dynamique -->
+                        <TextBlock x:Name="AboutLine1" 
+          Style="{StaticResource AboutTextStyle}"
+          Visibility="Collapsed">
+                            <TextBlock.Inlines>
+                                <Run Text=""/>
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                        <TextBlock x:Name="AboutLine2" 
+          Style="{StaticResource AboutTextStyle}"
+          Visibility="Collapsed">
+                            <TextBlock.Inlines>
+                                <Run Text=""/>
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                        <TextBlock x:Name="AboutLine3" 
+          Style="{StaticResource AboutTextStyle}"
+          Visibility="Collapsed">
+                            <TextBlock.Inlines>
+                                <Run Text=""/>
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Barre de boutons d'action -->
+        <Border Grid.Row="1"
+                BorderBrush="#E0E0E0" 
+                BorderThickness="0,1,0,0" 
+                Background="#F5F5F5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="ResetButton" 
+                        Grid.Column="1" 
+                        Content="Réinitialiser" 
+                        Style="{StaticResource ActionButtonStyle}"
+                        MinWidth="80"
+                        Margin="5"
+                        Click="ResetButton_Click"
+                        ToolTip="Réinitialiser les paramètres par défaut"/>
+                <Button x:Name="ApplyButton" 
+                        Grid.Column="2" 
+                        Content="Appliquer" 
+                        Style="{StaticResource ApplyButtonStyle}"
+                        MinWidth="80"
+                        Margin="5"
+                        Click="ApplyButton_Click"
+                        ToolTip="Appliquer les modifications"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
